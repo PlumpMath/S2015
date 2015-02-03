@@ -1,0 +1,21 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+sub total {
+    state $all_total = 0;
+    print "Enter numbers (Ctrl+D to end input):\n";
+    @numbers = <STDIN>;
+    @reversed = reverse(@numbers);
+    $sum = 0;
+    foreach $number (@numbers) {
+        $sum += $number;
+    }
+    $all_total += $sum;
+
+    print "Total: $sum\n";
+    print "Total of all calls: $all_total\n";
+    print "Numbers in current list, reversed: @reversed";
+}
+
+&total();

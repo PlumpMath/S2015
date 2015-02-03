@@ -1,0 +1,8 @@
+#!/usr/bin/env perl
+
+print "Enter a number: ";
+$number = <STDIN>;
+print "Enter a string: ";
+$string = <STDIN>;
+
+print "$string" x ($number ** 2);

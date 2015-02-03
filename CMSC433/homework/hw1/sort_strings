@@ -1,0 +1,12 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+print "Enter strings (Ctrl+d to end input)\n";
+
+@strings = <STDIN>;
+@sorted_strings = sort(@strings);
+
+while (($index, $value) = each @sorted_strings) {
+    print "$index: $value";
+}
