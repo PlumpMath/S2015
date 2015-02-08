@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+# Get filename;
+print "Enter a filename: ";
+$filename = <STDIN>;
+
+# Check if filename is a valid file.
+if (! open FILE, $filename ) {
+    die "Cannot read $filename: $!";
+}
+
+# Get search phrases:
+print "Enter the first search phrase: ";
+$first = <STDIN>;
+chomp($first);
+
+print "Enter the second search phrase: ";
+$second = <STDIN>;
+chomp($second);
+
+print "\n";
+
+# Iterate over file.
+while(<FILE>) {
+    if (/($first)/ || /($second)/) {
+        print $_;
+    }
+}
+
+close FILE;

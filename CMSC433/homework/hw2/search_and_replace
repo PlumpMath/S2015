@@ -1,0 +1,36 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+# Get filename.
+print "Enter a filename: ";
+$infile = <STDIN>;
+chomp($infile);
+
+# Check if file can be read.
+if (! open INFILE, $infile) {
+    die "Cannot read $infile: $!";
+}
+
+# Get search and replacement phrases.
+print "Enter search phrase: ";
+$search = <STDIN>;
+chomp($search);
+
+print "Enter replace phrase: ";
+$replace = <STDIN>;
+chomp($replace);
+
+$outfile = "repl." . $infile;
+
+if (! open OUTFILE, '>', $outfile) {
+    die "Cannot create new file $outfile: $!";
+}
+
+while (<INFILE>) {
+    s/$search/$replace/;
+    print OUTFILE "$_";
+}
+
+close INFILE;
+close OUTFILE;

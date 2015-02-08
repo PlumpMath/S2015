@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+# Get filename from user.
+print "Enter a filename: ";
+$filename = <STDIN>;
+
+# Check if filename is a valid file.
+if (! open FILE, $filename ) {
+    die "Cannot read $filename: $!";
+}
+
+# Create hash to store words.
+$word_hash = {};
+
+# Scan each line.
+while (<FILE>) {
+    @words = split(/[^\w\']+/, $_);
+    foreach $word (@words) {
+        $word_hash{$word} += 1;
+    }
+}
+
+while (my ($key, $value) = each %word_hash) {
+    print "\"$key\": $value\n";
+}
+
+close FILE;

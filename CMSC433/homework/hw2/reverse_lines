@@ -1,0 +1,25 @@
+#!/usr/bin/env perl
+
+print "Enter a filename: ";
+$filename = <STDIN>;
+
+# Check if filename is a valid file.
+if (! open FILE, $filename ) {
+    die "Cannot read $filename: $!";
+}
+
+@lines = ();
+# Print lines in reverse order.
+while (<FILE>) {
+   push(@lines, $_);
+}
+
+@lines = reverse(@lines);
+$count = 1;
+
+foreach $line (@lines) {
+    print "$count: $line";
+    $count += 1;
+}
+
+close FILE;
