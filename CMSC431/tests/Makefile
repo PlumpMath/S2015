@@ -3,6 +3,7 @@ NASM := nasm -f elf64
 CFLAGS := -o
 CC := gcc
 SHELL := /bin/sh
+MKDIR_P = mkdir -p
 
 srcdir = src
 objdir = obj
@@ -20,7 +21,10 @@ all: $(EXECUTABLES)
 $(EXECUTABLES): %.out: src/%
 ifeq ($(MAKELEVEL), 0)
 	$(error Tests cannot be made directly)
-else
+else	
+	$(MKDIR_P) $(objdir)
+	$(MKDIR_P) $(asmdir)
+
 	$(COMPILER) < $^ > $(asmpath)
 	$(NASM) $(asmpath) -o $(objpath)
 	$(CC) $(objpath) $(CFLAGS) $@

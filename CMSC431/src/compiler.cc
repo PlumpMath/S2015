@@ -29,42 +29,42 @@ void Compiler::push(long x) {
 }
 
 void Compiler::add() {
-    stream << "\tpop rax" << endl;
-    stream << "\tadd [rsp], rax" << endl;
+    stream << "\tpop rax" << endl
+           << "\tadd [rsp], rax" << endl;
 }
 
 void Compiler::sub() {
-    stream << "\tpop rax" << endl;
-    stream << "\tsub [rsp], rax" << endl;
+    stream << "\tpop rax" << endl
+           << "\tsub [rsp], rax" << endl;
 }
 
 void Compiler::mult() {
-    stream << "\tpop rax" << endl;
-    stream << "\timul rax, [rsp]" << endl;
-    stream << "\tmov [rsp], rax" << endl;
+    stream << "\tpop rax" << endl
+           << "\timul rax, [rsp]" << endl
+           << "\tmov [rsp], rax" << endl;
 }
 
 void Compiler::div() {
-    stream << "\tpop rcx" << endl;
-    stream << "\tpop rax" << endl;
-    stream << "\tcqo" << endl;
-    stream << "\tcall safe_div" << endl;
-    stream << "\tpush QWORD rax" << endl;
+    stream << "\tpop rcx" << endl
+           << "\tpop rax" << endl
+           << "\tcqo" << endl
+           << "\tcall safe_div" << endl
+           << "\tpush QWORD rax" << endl;
 }
 
 void Compiler::mod() {
-    stream << "\tpop rcx" << endl;
-    stream << "\tpop rax" << endl;
-    stream << "\tcqo" << endl;
-    stream << "\tcall safe_div" << endl;
-    stream << "\tpush QWORD rdx" << endl;
+    stream << "\tpop rcx" << endl
+           << "\tpop rax" << endl
+           << "\tcqo" << endl
+           << "\tcall safe_div" << endl
+           << "\tpush QWORD rdx" << endl;
 }
 
 void Compiler::exp() {
-    stream << "\tpop rsi" << endl;
-    stream << "\tpop rdi" << endl;
-    stream << "\tcall intpow" << endl;
-    stream << "\tpush QWORD rax" << endl;
+    stream << "\tpop rsi" << endl
+           << "\tpop rdi" << endl
+           << "\tcall intpow" << endl
+           << "\tpush QWORD rax" << endl;
 }
 
 void Compiler::negate() {
@@ -78,59 +78,59 @@ void Compiler::output() {
 }
 
 void Compiler::startBoilerplate() {
-    stream << "\textern printf" << endl;
-    stream << "\tSECTION .data" << endl;
-    stream << "\tfmt_decimal_nl:\tdb \"%ld\", 10, 0" << endl;
-    stream << "\tfmt_div_zero:\tdb \"ERROR: divide by zero!\", 10, 0" << endl << endl;
+    stream << "\textern printf" << endl
+           << "\tSECTION .data" << endl
+           << "\tfmt_decimal_nl:\tdb \"%ld\", 10, 0" << endl
+           << "\tfmt_div_zero:\tdb \"ERROR: divide by zero!\", 10, 0" << endl << endl
 
-    stream << "\tSECTION .text" << endl;
-    stream << "\tglobal main" << endl;
+           << "\tSECTION .text" << endl
+           << "\tglobal main" << endl
 
     /* Exponentiation function */
-    stream << "intpow:" << endl;
-    stream << "\tpush rbp" << endl;
-    stream << "\tmov rbp, rsp" << endl;
-    stream << "\tmov rax, rdi" << endl;
-    stream << "loop:" << endl;
-    stream << "\tcmp rsi, 1" << endl;
-    stream << "\tjle finish" << endl;
-    stream << "\tdec rsi" << endl;
-    stream << "\timul rax, rdi" << endl;
-    stream << "\tjmp loop" << endl;
-    stream << "finish:" << endl;
-    stream << "\tmov rsp, rbp" << endl;
-    stream << "\tpop rbp" << endl;
-    stream << "\tret" << endl << endl;
+           << "intpow:" << endl
+           << "\tpush rbp" << endl
+           << "\tmov rbp, rsp" << endl
+           << "\tmov rax, rdi" << endl
+           << "loop:" << endl
+           << "\tcmp rsi, 1" << endl
+           << "\tjle finish" << endl
+           << "\tdec rsi" << endl
+           << "\timul rax, rdi" << endl
+           << "\tjmp loop" << endl
+           << "finish:" << endl
+           << "\tmov rsp, rbp" << endl
+           << "\tpop rbp" << endl
+           << "\tret" << endl << endl
 
-    stream << "safe_div:" << endl;
+           << "safe_div:" << endl
     /* Check the divisor */
-    stream << "\tcmp rcx, 0" << endl;
-    stream << "\tje error_div_zero" << endl;
-    stream << "\tidiv QWORD rcx" << endl;
-    stream << "\tret" << endl;
+           << "\tcmp rcx, 0" << endl
+           << "\tje error_div_zero" << endl
+           << "\tidiv QWORD rcx" << endl
+           << "\tret" << endl
 
     /* Divide by zero exception handler. */
-    stream << "error_div_zero:" << endl;
-    stream << "\tmov rdi, fmt_div_zero" << endl;
-    stream << "\tpop rsi" << endl;
-    stream << "\tmov al, 0" << endl;
-    stream << "\tcall printf" << endl;
-    stream << "\tmov rsp, rbp" << endl;
-    stream << "\tpop rbp" << endl;
-    stream << "\tret" << endl << endl;
+           << "error_div_zero:" << endl
+           << "\tmov rdi, fmt_div_zero" << endl
+           << "\tpop rsi" << endl
+           << "\tmov al, 0" << endl
+           << "\tcall printf" << endl
+           << "\tmov rsp, rbp" << endl
+           << "\tpop rbp" << endl
+           << "\tret" << endl << endl
 
-    stream << "main:" << endl;
+           << "main:" << endl
     /* Set up stack frame. */
-    stream << "\tpush rbp" << endl;
-    stream << "\tmov rbp, rsp" << endl;
+           << "\tpush rbp" << endl
+           << "\tmov rbp, rsp" << endl;
 }
 
 void Compiler::endBoilerplate() {
-    stream << "\tmov rdi, fmt_decimal_nl" << endl;
-    stream << "\tpop rsi" << endl;
-    stream << "\tmov al, 0" << endl;
-    stream << "\tcall printf" << endl;
-    stream << "\tmov rsp, rbp" << endl;
-    stream << "\tpop rbp" << endl;
-    stream << "\tret" << endl;
+    stream << "\tmov rdi, fmt_decimal_nl" << endl
+           << "\tpop rsi" << endl
+           << "\tmov al, 0" << endl
+           << "\tcall printf" << endl
+           << "\tmov rsp, rbp" << endl
+           << "\tpop rbp" << endl
+           << "\tret" << endl;
 }
