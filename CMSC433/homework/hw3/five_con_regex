@@ -1,0 +1,33 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+print "Enter a regular expression: ";
+$regex = <STDIN>;
+chomp($regex);
+
+print "Enter a filename: ";
+$filename = <STDIN>;
+chomp($filename);
+
+# Open the file.
+if (! open FILE, $filename) {
+    die "Cannot read $filename: $!";
+}
+
+# Read file and concatenate to one long string.
+$text = "";
+while (<FILE>) {
+    chomp($_);
+    $text .= " " . $_
+}
+
+$text .= '\n';
+
+if ($text =~ /($regex){5}/) {
+    print "$regex matches five times in this file!\n";
+} else {
+    print "$regex was not matched five times.\n";
+}
+
+close FILE;

@@ -1,0 +1,22 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+$oldest = undef;
+$age = 0;
+
+foreach $arg (@ARGV) {
+    if (! defined $oldest) {
+        $oldest = $arg;
+        $age = -M $oldest;
+    }
+
+    if ((-M $arg) > $age) {
+        $oldest = $arg;
+        $age = -M $arg;
+    }
+}
+
+if (defined $oldest) {
+    print "$oldest is the oldest file passed, and has an age of $age.\n";
+} 

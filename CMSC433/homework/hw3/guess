@@ -1,0 +1,41 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+print "Enter a number: ";
+$first = <STDIN>;
+chomp($first);
+
+print "Enter another number greater than the first, and at least equal to 99: ";
+$second = <STDIN>;
+chomp($second);
+
+# Check second number.
+if ($second < $first || $second < 99) {
+    print "The second number needs to be larger than the first and at least equal to 99!\n";
+    exit(1);
+}
+
+$random = int($first + rand $second);
+
+print "Guess a random number: ";
+while(<STDIN>) {
+    if (/[(quit)(exit) ]/i) {
+        print "Goodbye.\n";
+        exit(0);
+    }
+
+    if ($_ < $random) {
+        print "Too low.\n";
+    } elsif ($_ > $random) {
+        print "Too high.\n";
+    } elsif ($_ == $random) {
+        print "Correct!!!\n";
+        exit(0);
+    }
+}
+
+    
+
+
+

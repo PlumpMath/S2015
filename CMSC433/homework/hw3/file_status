@@ -1,0 +1,46 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+# Get filename from STDIN
+print "Enter a filename: ";
+$filename = <STDIN>;
+
+# Process file and get filenames.
+if (! open FILE, $filename) {
+    die "Cannot open $filename: $!\n";
+}
+
+@files = ();
+while(<FILE>) {
+    chomp;
+    push(@files, $_);
+}
+
+close FILE;
+
+foreach $file (@files) {
+    @status = ();
+    if (-e $file) {
+        push(@status, "exists");
+    } else {
+        push(@status, "does not exist");
+    }
+
+    if (-r $file) {
+       push(@status, "is readable");
+    }
+
+    if (-w $file) {
+        push(@status, "is writable");
+    }
+
+    if (-x $file) {
+        push(@status, "is executable");
+    }
+
+    $status_string = join(", ", @status);
+
+    print "$file $status_string.\n";
+}
+

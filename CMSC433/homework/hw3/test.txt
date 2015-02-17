@@ -1,0 +1,13 @@
+This is a text file that will match
+the regular expression /fred/
+if the regular expression mentioned
+is repeated five times
+like fredfredfredfredfred.
+
+It will also match the regex
+/fred|barney/. One example of
+this match is fredbarney. Matching five
+times would be more like the string below.
+fredbarneyfredbarneybarney. Incidentally, it will
+also match the string in the first
+paragraph.
