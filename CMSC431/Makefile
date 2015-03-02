@@ -8,5 +8,5 @@ tests: Proj1
 
 clean:
 	-$(RM) Proj1
-	cd src && make clean
-	cd tests && make clean
+	$(MAKE) -C src clean
+	$(MAKE) -C tests clean

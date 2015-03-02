@@ -14,21 +14,38 @@ and
 respectively.
 
 .P 
-The language currently operates as a calculator supporting basic integer 
-mathematic operations in prefix notation. Operators must complete precede
-their operands. 
+The language currently performs integer and floating-point calculations,
+variable declarations and printing of expressions and variables. Operators must
+precede operands and be surrounded by matching sets of parentheses. 
 .
 .SH LANGUAGE
+.SS Special Forms
+The following forms are language primitives, and support integer and
+floating-point operands.
+.TP
+(def label value)
+Defines a variable with the given value. The label must be a string of
+uppercase or lowercase characters, with underscores allowed as well. Values can
+be raw integers, floating-point numbers, expressions, or other previously
+declared variables.
+.TP
+(print x)
+Prints the value of a variable or expression without a newline. x can be a
+defined variable or an expression. If a non-defined variable is passed, this
+throws an error.
+.TP
+(println x)
+Similar to the print form, but adds a newline character to the end. 
 .SS Mathematical Operations
 The following mathematical operations are supported in decreasing order of 
 precedence. Expressions may be constructed from signed 64 bit integers, or
-other mathematical expressions.
+signed 64 bit floating-point values. The two cannot be mixed.
 .TP
 (expression)
 Parentheses. Encapsulates expressions externally. Internally, override 
 precedence of operators outside the parentheses. NOTE: These are needed
 around the entirety of the expression, but only needed internally for
-clarity. Ex. '+ 1 2' will not compile, but '(+ * 3 4 2)' will. 
+clarity. Ex. '+ 1 2' will not compile, but '(+ 1 2)' will. 
 .TP
 ^ expression expression
 Integer exponentiation. Returns 1 if exponent is less than 1. 
@@ -53,11 +70,10 @@ Subtraction. Same precedence as addition.
 .
 .SH LIMITATIONS
 .IP \(bu
-The compiler supports only a single mathematical expression. 
-.IP \(bu
 A newline is required after the mathematical expression. 
 .IP \(bu
-Newlines may not be present within the expression.
+Currently, integer and floating-point overflow is not handled. Need to add
+handling for this.
 .
 .SH AUTHOR
 Jeremy Neal <jneal2@umbc.edu>

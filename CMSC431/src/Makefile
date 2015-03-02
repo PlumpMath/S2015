@@ -13,9 +13,11 @@ YACC := bison
 # Flags to pass to YACC program
 YFLAGS := -d
 
+CXXFLAGS := -std=c++0x
+
 # Link objects and build executable
 Proj1: $(objs)
-	$(CXX) $(objs) $(LDLIBS) -o $@
+	$(CXX) $(CXXFLAGS) $(objs) $(LDLIBS) -o $@
 	mv $@ ../
 	cd ../
 

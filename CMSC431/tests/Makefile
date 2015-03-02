@@ -1,6 +1,6 @@
 COMPILER := ../Proj1
 NASM := nasm -f elf64
-CFLAGS := -o
+CFLAGS := -lm -o
 CC := gcc
 SHELL := /bin/sh
 MKDIR_P = mkdir -p
@@ -12,8 +12,8 @@ asmdir = asm
 TESTS = $(wildcard $(srcdir)/*)
 EXECUTABLES = $(addsuffix .out, $(notdir $(TESTS)))
 
-asmpath = $(asmdir)/$(^F).asm
-objpath = $(objdir)/$(^F).o
+asmpath = $(asmdir)/$(basename $(^F)).asm
+objpath = $(objdir)/$(basename $(^F)).o
 
 .PHONY: all
 all: $(EXECUTABLES)

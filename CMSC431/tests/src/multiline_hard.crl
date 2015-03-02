@@ -1,0 +1,6 @@
+(def x (+ 4 8))
+(def y (* 7 3))
+(def z (+ x y))
+(print x)
+(print y)
+(print z)
