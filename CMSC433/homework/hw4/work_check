@@ -1,0 +1,17 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+print "Enter some number of seconds as an integer: ";
+$time_since = <STDIN>;
+chomp($time_since);
+
+# Calculate day.
+$calculated_day = `date --date='\@$time_since' +%A`;
+chomp($calculated_day);
+
+if ($calculated_day eq "Saturday" || $calculated_day eq "Sunday") {
+    print "Relax, my friend.\n";
+} else {
+    print "Get to work!!!!\n";
+}

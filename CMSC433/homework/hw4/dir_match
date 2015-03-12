@@ -1,0 +1,31 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+print "Enter a directory name: ";
+$directory = <STDIN>;
+chomp($directory);
+
+print "Enter a regular expression: ";
+$regex = <STDIN>;
+chomp($regex);
+
+# Check directory name and change.
+if ($directory eq "") {
+    chdir;
+    print "No directory specified: going to \$HOME.\n";
+} else {
+    chdir $directory or die "Cannot chdir to $directory: $!";
+}
+
+@all_files = <*>;
+@matching_files = ();
+
+foreach $filename (@all_files) {
+    if ($filename =~ /$regex/) {
+        push(@matching_files, $filename);
+    }
+} 
+
+print "@matching_files\n";
+

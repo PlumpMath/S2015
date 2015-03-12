@@ -1,0 +1,26 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+print "Enter a string to search: ";
+$full_string = <STDIN>;
+chomp($full_string);
+
+print "Enter a substring to search for: ";
+$substring = <STDIN>;
+chomp($substring);
+
+@index_list = ();
+
+$index = -1;
+
+while ($full_string ne "") {
+    $index = index($full_string, $substring, $index + 1);
+    if ($index == -1) {
+        $full_string = "";
+    } else {
+        push(@index_list, $index);
+    }
+}
+
+print "@index_list\n";

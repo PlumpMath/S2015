@@ -1,0 +1,151 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+sub process_file {
+    my $filepath = $_[0];
+    my %terms;
+
+    open FILE, "<$filepath" or die "Could not open $filepath: $!\n";
+    while(<FILE>) {
+        my @words = split(/[^\w+]/);
+        foreach my $word (@words) {
+            chomp($word);
+            $word = lc $word;
+            if ($word ne "") {
+                $terms{$word}++;
+            }
+        }
+    }
+
+    close FILE;
+
+    return %terms;
+}
+
+sub process_dir {
+    my $filedir = $_[0];
+    my %files;
+
+    opendir FILEDIR, $filedir or die "Cannot open directory $filedir: $!\n";
+    foreach my $file (readdir FILEDIR) {
+        # Open file and process
+        if ($file ne ".." && $file ne ".") {
+            my %terms = &process_file("$filedir/$file");
+            foreach my $term (sort keys %terms) {
+                $files{$file}{$term} = $terms{$term};
+            }
+        }
+    }
+
+    close FILEDIR;
+
+    return %files;
+}
+
+sub tf {
+    my $filedir = $_[0];
+    my $output_file = $_[1];
+    my %files = &process_dir($filedir);
+
+    open OUTFILE, ">$output_file" or die "Could not open $output_file: $!\n";
+
+    foreach my $file (sort keys %files) {
+        my $num_terms = keys %{ $files{$file} };
+        foreach my $term (sort keys %{ $files{$file} }) {
+            my $count = $files{$file}{$term};
+            my $freq = $count / $num_terms;
+            print OUTFILE "$file, $term, $freq\n";
+        }
+    }
+
+    close OUTFILE;
+}
+
+
+sub idf {
+    my $filedir = $_[0];
+    my $output_file = $_[1];
+    my %files = &process_dir($filedir);
+    my $document_count = keys %files;
+    my %document_freq;
+
+    open OUTFILE, ">$output_file" or die "Could not open $output_file: $!\n";
+    foreach my $file (sort keys %files) {
+        foreach my $term (sort keys %{ $files{$file} }) {
+            $document_freq{$term}++;
+        }
+    }
+
+    foreach my $term (sort keys %document_freq) {
+        my $doc_freq = $document_freq{$term};
+        my $idf = log($document_count / $doc_freq);
+        print OUTFILE "$term, $idf\n";
+    }
+
+    close OUTFILE;
+}
+
+sub tf_idf { 
+    my $filedir = $_[0];
+    my $output_file = $_[1];
+    my %files = &process_dir($filedir);
+    my $document_count = keys %files;
+    my %document_freq;
+
+    open OUTFILE, ">$output_file" or die "Could not open $output_file: $!\n";
+    foreach my $file (sort keys %files) {
+        foreach my $term (sort keys %{ $files{$file} }) {
+            $document_freq{$term}++;
+        }
+    }
+
+    foreach my $file (sort keys %files) {
+        $num_terms = keys %{ $files{$file} };
+        foreach my $term (sort keys %{ $files{$file} }) {
+            my $count = $files{$file}{$term};
+            my $tf = $count / $num_terms;
+            my $doc_freq = $document_freq{$term};
+            my $idf = log($document_count / $doc_freq);
+            my $tf_idf = $tf * $idf;
+            print OUTFILE "$file, $term, $tf_idf\n";
+        }
+    }
+    
+    close OUTFILE;
+}
+
+# Starting point. Read the text file.
+# File should be passed in args.
+$filename = @ARGV[0];
+$filedir;
+$tfoutput;
+$idfoutput;
+$tf_idfoutput;
+
+# Try to open the file.
+open INFILE, "<$filename" or die "Could not open $filename: $!\n";
+
+while(<INFILE>) {
+    chomp; # Remove newlines.
+    # If file starts with octothorpe, ignore.
+    if (/\A#/) {
+        # Skip line
+    } else {
+        my @kv = split(/:/);
+        if (@kv[0] eq "filedir") {
+            $filedir = @kv[1];
+        } elsif (@kv[0] eq "tfoutput") {
+            $tfoutput = @kv[1];
+            &tf($filedir, $tfoutput);
+        } elsif (@kv[0] eq "idfoutput") {
+            $idfoutput = @kv[1];
+            &idf($filedir, $idfoutput);
+        } elsif (@kv[0] eq "tf-idfoutput") {
+            $tf_idfoutput = @kv[1];
+            &tf_idf($filedir, $tf_idfoutput);
+        }
+    }
+}
+
+close INFILE;

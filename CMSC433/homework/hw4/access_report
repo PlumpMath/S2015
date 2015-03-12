@@ -1,0 +1,31 @@
+#!/usr/bin/env perl
+
+use 5.010;
+
+print "Enter a directory name: ";
+$directory = <STDIN>;
+chomp($directory);
+
+opendir DIR, $directory or die "Cannot open $directory: $!";
+foreach $file (readdir DIR) {
+    # Get info on file.
+    $path = "$directory/$file";
+    @info = stat($path);
+    # Get access and mod timestamps.
+    my($atime, $mtime) = ($info[8], $info[9]);
+
+    # Process time stamps.
+    my($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) = localtime $atime;
+    $year += 1900;
+    $month += 1;
+    $format_atime = "$year$mon$day$hour$min$sec";
+
+    my($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) = localtime $mtime;
+    $year += 1900;
+    $month += 1;
+    $format_mtime = "$year$mon$day$hour$min$sec";
+
+    print "$file $atime $format_atime $mtime $format_mtime\n";
+}
+
+closedir DIR;
