@@ -2,6 +2,9 @@
 
 import sys
 
+def noNewLine(string):
+    return string.split("\n")[0]
+
 def main():
     # Check number of args.
     if (len(sys.argv) != 2):
@@ -17,10 +20,11 @@ def main():
         lineCount = 1
         for line in data[1:]:
             book_info = line.split(",")
-            print book_info
-            print "{} {}:{} {}:{} {}:{}".format(lineCount, labels[0],
-                    book_info[0], labels[1], book_info[1], labels[2],
-                    book_info[2]) 
+            print lineCount,
+            for i in range(len(labels)):
+                print "{}:{}".format(noNewLine(labels[i]),
+                        noNewLine(book_info[i])),
+            print ""
             lineCount += 1
 
 

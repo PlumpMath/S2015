@@ -1,0 +1,4 @@
+filedir:comedies/
+tfoutput:tfoutput.txt
+idfoutput:idfoutput.txt
+tf-idfoutput:tf-idfoutput.txt

@@ -1,0 +1,3 @@
+val max = (x: Int, y: Int) => if (x > y) x else y
+
+def maxOfThree(x: Int, y: Int, z: Int, f: (Int, Int) => Int) = f(f(x, y), f(y, z))
