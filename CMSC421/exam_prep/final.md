@@ -2,7 +2,7 @@
 ## What is an OS?  What is a kernel?
   An operating system, or OS, is a program responsible for managing the hardware of a system
   making it convenient for the user(s) to use applications without having to concern themselves
-  with hardware level issues. The kernel is the core of the operating system that is *always*
+  with hardware level issues. The kernel is the core of the operating system that is __always__
   running. This distinction is made against systems programs (ex. `grep`, `cat`), which are considered
   part of the operating system, but are only executed when the user chooses so.
 ## Computer system organization and architecture
@@ -13,7 +13,7 @@
 
 ## OS operations
 ## Process management
-A program is *not* a process. A program is a _passive_ entity, just code. A process is an
+A program is __not__ a process. A program is a _passive_ entity, just code. A process is an
 _active_ entity, it is actually executed and does work.
 
 ## Memory mgmt
@@ -35,7 +35,7 @@ A file is a collection of related information defined by its creator. The operat
   - mapping files onto secondary storage
   - backing up files on stable (nonvolatile) storage media
 
-The operating system also handles *caching* (temporary, fast storage of data). Caches have limited
+The operating system also handles __caching__ (temporary, fast storage of data). Caches have limited
 size, so this needs to be aggressively managed.
 
 ## Protection and security
@@ -43,25 +43,92 @@ The operating system provides protection and security in a number of ways.
   - user identifiers (user IDs, or security IDs in Windows)
   - group identifiers
   - privileges
+
 ## Some basic data structs used in the kernel
 Basic data structures used in the kernel include linked-lists (these are everywhere!), red-black
 trees (and other balanced tree implementations) for file systems.
 
 # Ch.2: Operating System Structures
 ## OS services
-  - UI, program exec., I/O, file system, communications, etc.
+  - For the user:
+    - UI (CLI, batch, GUI)
+    - program exec.
+    - I/O
+    - file system
+    - communications
+    - error detection
+
+  - For efficient system operation:
+    - resource allocation
+    - accounting
+    - protection and security
+
 
 ## User's interface to the OS: system calls
+There are shells (like `bash`) which allow the user to interact using very precise commands. There
+are also graphical user interfaces, or GUIS, which allow the user to interact using a
+mouse-and-window based system. The choice of which to use comes down to personal preference.
+
+No matter which type of interface is used, __system calls__ are made which make direct requests of
+kernel level resources. Most programmers never have to deal with these calls directly, due to layers
+of abstraction.
+
 ## User mode and kernel mode
+The OS has two main modes, which are typically governed by the presence or absence of a single bit.
+These are user mode and kernel mode. In user mode, interactions with kernel utilities is greatly
+restricted. When a system call is made, the OS temporarily switches into kernel mode, executes the
+command, then switches back into user mode.
+
 ## Types of syscalls
+There are six major categories of system calls:
+  - process control
+  - file manipulation
+  - device manipulation
+  - information maintenance
+  - communications
+  - protection
+
 ## Interrupt-driven nature of OSs
+Modern OSs are interrupt-driven. To the average user, it may appear that all applications are being
+run simultaneously. In reality, a process is run for a very short amount of time, interrupted, and
+another process is allowed to run. Whenever a system call is made, the OS cedes control to that
+call. This is how processes switch, files are written and read, etc.
+
 ## System programs
+Along with system calls, there are system programs. These can be interfaces to system calls, or more
+complex programs. They are divided into categories:
+  - file management
+  - status information
+  - file modification
+  - programming language support
+  - program loading and execution
+  - communications
+
 ## OS design and implementation
-## OS structure--multiple alternatives
-  - simple (MS-DOS), UNIX, fully-layered, microkernel, etc.
+There are two types of design goals in operating systems: user goals and system goals. For users,
+the system should be easy-to-use, reliable, safe and fast. The system should (similarly) be easy to
+design, implement, maintain and operate. It should be flexible, reliable, error free and efficient.
+These "goals" are usually vague and can be interpreted in a number of ways.
+
+An important principle is the separation of __policy__ from __mechanism__. Mechanism is _how_
+something is done. Policy is _what_ will be done.
+
+## OS structure - multiple alternatives
+  - simple (MS-DOS): most functionality in least space, not modular
+  - UNIX and other fully-layered systems: system broken up into layers of functionality.
+    Layer 0 is hardware, layer N is the user interface.
+  - microkernel: all non-essential functionality is moved from the kernel to system and user-level
+    programs.
 
 ## OS debugging
+  - Failure analysis: when a process fails, error information is written to a log file. The
+    operating system can also take a __core dump__, which is a snapshot of the memory of the
+    process. When the kernel fails, it is called a crash. These generate __crash dumps__, which are
+    analogous to core dumps.
+
 ## System boot process, from BIOS to fully running system
+  - Bootstrap program/loader: locates the kernel, loads it into memory, starts execution. Kernel
+    handles the rest of initialization.
 
 # Ch.3: Processes
 ## Concept of a "process"
