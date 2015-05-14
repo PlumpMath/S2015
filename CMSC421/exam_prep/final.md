@@ -8,6 +8,7 @@
 ## Computer system organization and architecture
 ## OS structure
   - multiprogramming and timesharing
+
 ## OS operations
 ## Process management
 ## Memory mgmt
@@ -18,6 +19,7 @@
 # Ch.2: Operating System Structures
 ## OS services
   - UI, program exec., I/O, file system, communications, etc.
+
 ## User's interface to the OS: system calls
 ## User mode and kernel mode
 ## Types of syscalls
@@ -26,6 +28,7 @@
 ## OS design and implementation
 ## OS structure--multiple alternatives
   - simple (MS-DOS), UNIX, fully-layered, microkernel, etc.
+
 ## OS debugging
 ## System boot process, from BIOS to fully running system
 
@@ -40,8 +43,10 @@
 ## UNIX fork()/exec(), parent/child proc. relationships
 ## Interprocess communications (IPC)
   - implementations: shared mem, message passing,
+
 ## Producer/consumer problem
   - Bounded buffer solution
+
 ## Direct vs. indirect IPC
 ## Synchronous vs. asynchronous communications
 ## Sockets, remote procedure calls (RPCs)
@@ -54,6 +59,7 @@
 ## Memory structure of multithreading
 ## Multithreading models
   - one-to-one, many-to-one, many-to-many
+
 ## Thread libraries, e.g. POSIX Pthreads
 ## Implicit threading
 ## Threading issues
@@ -63,29 +69,37 @@
 ## Race condition    
   - Should be familiar with extended Bounded Buffer problem, trying
     to use every buffer element
+
 ## Critical-section problem
   - Necessary properties of any complete solution to the critical-section prob.
+
 ## Peterson's soln
 ## Synchronization hardware
   - Atomic operations, and why they're important
   - pseudocode version of test-and-set, compare-and-swap atomic ops
+
 ## Mutex locks using spinlocks
   - acquire() and release()
+
 ## Semaphores
   - wait()/signal() (or P()/V())
   - both counting semaphores, and mutexes through binary semaphores
   - semaphore implementation with no busy waits: using block() and wakeup()
+
 ## Deadlock and starvation
   - should be able to give examples
   - some (possibly unrealistic) solutions to deadlock
+
 ## Classic problems of synchronization:
   - Bounded-buffer problem, solution w/semaphores
   - Readers and writers problem, solution w/semaphores
   - Dining philosophers problem (not solved with semaphores)
+
 ## Monitors
   - general definition
   - high-level (i.e., not very detailed) understanding of condition vars
   - Using monitors to solve Dining Philosophers
+
 ## Sync e.g.s
 ## Alt. approaches
 
@@ -96,9 +110,11 @@
   - First Come/First Serve (FCFS)
   - Shortest-Job-First (SJF)
     - with preemption: becomes "shortest-remaining-time-first"
+
 ## CPU burst prediction
   - Exponential averaging
   - Be able to draw Gantt charts
+
 ## Priority Scheduling
 ## Round Robin -- implies preemption
 ## Multi-level Scheduling
@@ -106,6 +122,7 @@
 ## Real-time Scheduling--basic concepts
 ## Scheduling algorithm evaluation
   - More important ones: deterministic modeling, and simulation
+
 # Ch.7: Deadlock
 ## Resource allocation graphs
 ## Handling Deadlocks:
@@ -131,6 +148,7 @@
 ## Fragmentation: internal vs. external
 ## Segmentation
   - H/W: segment table structure
+
 ## Paging
   - Basic concept, comparison to contiguous relocation and segmentation
   - Page table
@@ -151,8 +169,10 @@
     - LRU approximations
     - Second chance algorithm
     - Reference string-based evaluation
+
 ## Allocation strategies
   - Equal, proportional
+
 ## Thrashing
   - What is it, when does it occur
   - Working sets
@@ -175,6 +195,7 @@
   - Single level vs. two-level vs. multi-level tree vs.
     - directed acyclic graph (DAG) vs. general graph
     - Features of each type
+
 ## File system mounting
 ## UNIX protection (user, group, world RWX permissions)
 
@@ -186,6 +207,7 @@
     - Index block
     - Direct and indirect pointers
     - The UNIX inode multi-level block index
+
 ## Free block list representations
   - Bitmap, linked list, UNIX's hybrid linked list (mentioned in lecture)
 
@@ -196,6 +218,7 @@
   - Polled
   - Interrupt-driven
   - DMA
+
 ## Block vs. character devices
 ## Non-blocking and asynchronous I/O
 
