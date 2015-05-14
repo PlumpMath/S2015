@@ -3,18 +3,49 @@
   An operating system, or OS, is a program responsible for managing the hardware of a system
   making it convenient for the user(s) to use applications without having to concern themselves
   with hardware level issues. The kernel is the core of the operating system that is *always*
-  running. This distinction is made against things like the Unix toolchain, which is considered
-  part of the operating system, but is only executed when the user chooses so.
+  running. This distinction is made against systems programs (ex. `grep`, `cat`), which are considered
+  part of the operating system, but are only executed when the user chooses so.
 ## Computer system organization and architecture
 ## OS structure
-  - multiprogramming and timesharing
+  - multiprogramming: increases CPU utilization by ensuring there is always a job to run.
+  - timesharing (aka multitasking): extension of multiprogramming where the CPU executes
+    multiple jobs by switching between them.
 
 ## OS operations
 ## Process management
+A program is *not* a process. A program is a _passive_ entity, just code. A process is an
+_active_ entity, it is actually executed and does work.
+
 ## Memory mgmt
+To improve utilization of the CPU and the speed of responses to users, the operating system
+keeps numerous processes in memory and manages:
+  - which parts of memory are being used and by whom
+  - deciding which processes (or parts thereof) and data to move into and out of memory.
+  - allocating and deallocating memory space as needed.
+
 ## Storage mgmt
+The OS abstracts the physical properties of storage devices to define a logical storage unit,
+the *file*. Storage can be on a number of different media: magnetic disks, optical disks, magnetic
+tape, etc.
+
+A file is a collection of related information defined by its creator. The operating system manages:
+  - creating and deleting files
+  - creating and deleting directories to organize files
+  - supporting primitives for manipulating files and directories
+  - mapping files onto secondary storage
+  - backing up files on stable (nonvolatile) storage media
+
+The operating system also handles *caching* (temporary, fast storage of data). Caches have limited
+size, so this needs to be aggressively managed.
+
 ## Protection and security
+The operating system provides protection and security in a number of ways.
+  - user identifiers (user IDs, or security IDs in Windows)
+  - group identifiers
+  - privileges
 ## Some basic data structs used in the kernel
+Basic data structures used in the kernel include linked-lists (these are everywhere!), red-black
+trees (and other balanced tree implementations) for file systems.
 
 # Ch.2: Operating System Structures
 ## OS services
